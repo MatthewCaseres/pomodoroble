@@ -1,6 +1,5 @@
 const fs = require("fs");
 const readline = require("readline");
-const humanizeDuration = require("humanize-duration");
 const { Select, Form } = require("enquirer");
 const _colors = require("colors");
 const cliProgress = require("cli-progress");
@@ -72,7 +71,7 @@ class MyTimer {
       { activity: this.break ? "break" : this.activity, time: this.seconds },
     ];
     fs.writeFileSync(
-      "lol.json",
+      "sessions/" + new Date().toISOString() + ".json",
       JSON.stringify({
         activity: this.activity,
         goal: this.goal,
