@@ -1,0 +1,16 @@
+{
+  "name": "exp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Matthew Caseres",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "cli-progress": "^3.9.0",
+    "colors": "^1.4.0",
+    "enquirer": "^2.3.6",
+    "hh-mm-ss": "^1.2.0",
+    "humanize-duration": "^3.25.1",
+    "ora": "^5.3.0"
+  }
+}
