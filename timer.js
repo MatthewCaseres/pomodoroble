@@ -4,8 +4,11 @@ const { Select, Form } = require("enquirer");
 const _colors = require("colors");
 const cliProgress = require("cli-progress");
 var TimeFormat = require("hh-mm-ss");
+const { Parser } = require('json2csv');
+const { uuid } = require('uuidv4');
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
+const json2csvParser = new Parser();
 
 class MyTimer {
   constructor(activity, { goal, block, breakLen }) {
@@ -16,7 +19,9 @@ class MyTimer {
     this.breakLen = breakLen;
     this.total = 0;
     this.activity = activity;
+    this.exercise = 0;
     this.break = false;
+    this.startTime = new Date().toISOString();
     this.timer = null;
     const multibar = new cliProgress.MultiBar({
       format: `{type} [${_colors.cyan("{bar}")}] {progress}`,
@@ -25,7 +30,7 @@ class MyTimer {
       hideCursor: true,
     });
     this.blockBar = multibar.create(parseInt(block) * 60, 0);
-    this.totalBar = multibar.create(parseInt(goal) * 60 * 60, 0);
+    this.totalBar = multibar.create(parseFloat(goal) * 60 * 60, 0);
     this.breakBar = multibar.create(parseInt(breakLen) * 60, 0);
   }
   start() {
@@ -57,28 +62,46 @@ class MyTimer {
     }, 1000);
   }
   toggle() {
+    const endTime = new Date().toISOString();
     this.logs = [
       ...this.logs,
-      { activity: this.break ? "break" : this.activity, time: this.seconds },
+      {
+        onBreak: this.break,
+        seconds: this.seconds,
+        endTime,
+        startTime: this.startTime,
+      },
     ];
+    this.startTime = endTime;
     this.break = !this.break;
     this.seconds = 0;
     this.breakBar.update(0);
   }
   finish() {
+    const endTime = new Date().toISOString();
+    const id = uuid();
     this.logs = [
       ...this.logs,
-      { activity: this.break ? "break" : this.activity, time: this.seconds },
+      {
+        onBreak: this.break,
+        seconds: this.seconds,
+        endTime,
+        startTime: this.startTime,
+      },
     ];
+    this.startTime = endTime;
+    let reformattedLogs = this.logs.map((log) => ({
+      ...log,
+      activity: this.activity,
+      targetTotalHours: this.goal,
+      blockLenMinutes: this.blockLen,
+      breakLenMinutes: this.breakLen,
+      id
+    }))
+    const csv = json2csvParser.parse(reformattedLogs);
     fs.writeFileSync(
-      "sessions/" + new Date().toISOString() + ".json",
-      JSON.stringify({
-        activity: this.activity,
-        goal: this.goal,
-        blockLen: this.blockLen,
-        breakLen: this.breakLen,
-        logs: this.logs,
-      })
+      "sessions/" + new Date().toISOString() + ".csv",
+      csv
     );
   }
 }
@@ -86,7 +109,7 @@ class MyTimer {
 const activityPrompt = new Select({
   name: "activity",
   message: "What are you doing",
-  choices: ["Open Source", "School"],
+  choices: ["Open Source", "School", "Books", "Exercise"],
 });
 const activityTime = new Form({
   name: "user",
