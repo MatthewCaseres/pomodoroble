@@ -1,0 +1,19 @@
+---
+title: "Productivity"
+author: "Matthew Caseres"
+date: "2/16/2021"
+output: html_document
+---
+
+```{r}
+library(tibble)
+library(dplyr)
+library(readr)
+```
+```{r}
+df <- list.files(path="./sessions", full.names = TRUE) %>% 
+  lapply(read_csv) %>% 
+  bind_rows  %>% 
+  mutate(start_date = as.Date(startTime))
+```
+

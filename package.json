@@ -8,6 +8,8 @@
     "cli-progress": "^3.9.0",
     "colors": "^1.4.0",
     "enquirer": "^2.3.6",
-    "hh-mm-ss": "^1.2.0"
+    "hh-mm-ss": "^1.2.0",
+    "json2csv": "^5.0.6",
+    "uuidv4": "^6.2.6"
   }
 }
