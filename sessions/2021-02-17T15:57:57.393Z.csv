@@ -1,0 +1,5 @@
+"onBreak","seconds","endTime","startTime","activity","targetTotalHours","blockLenMinutes","breakLenMinutes","id"
+false,3689,"2021-02-17T14:48:25.847Z","2021-02-17T13:46:45.347Z","Books","1","60","0","3c753bad-5b47-48b5-8fbf-4963a4c47bf9"
+true,92,"2021-02-17T14:49:58.300Z","2021-02-17T14:48:25.847Z","Books","1","60","0","3c753bad-5b47-48b5-8fbf-4963a4c47bf9"
+false,3725,"2021-02-17T15:52:14.852Z","2021-02-17T14:49:58.300Z","Books","1","60","0","3c753bad-5b47-48b5-8fbf-4963a4c47bf9"
+true,341,"2021-02-17T15:57:57.380Z","2021-02-17T15:52:14.852Z","Books","1","60","0","3c753bad-5b47-48b5-8fbf-4963a4c47bf9"
