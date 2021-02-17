@@ -15,5 +15,14 @@ df <- list.files(path="./sessions", full.names = TRUE) %>%
   lapply(read_csv) %>% 
   bind_rows  %>% 
   mutate(start_date = as.Date(startTime))
+df %>% 
+  filter(!onBreak) %>% 
+  group_by(id) %>% 
+  summarise(hours = sum(seconds)/3600)
 ```
-
+```{r}
+df %>% 
+  filter(!onBreak) %>% 
+  group_by(activity) %>% 
+  summarise(hours = sum(seconds)/3600)
+```
