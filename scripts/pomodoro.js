@@ -101,7 +101,7 @@ class MyTimer {
     }))
     const csv = json2csvParser.parse(reformattedLogs);
     fs.writeFileSync(
-      path.join("..", "sessions", new Date().toISOString() + ".csv"),
+      path.join(__dirname, "..", "sessions", new Date().toISOString() + ".csv"),
       csv
     );
   }
@@ -110,7 +110,7 @@ class MyTimer {
 const activityPrompt = new Select({
   name: "activity",
   message: "What are you doing",
-  choices: ["Wake Up", "Open Source", "School", "Books", "Exercise"],
+  choices: ["AWS Notes", "AWS Problems", "Chores", "Open Source", "School", "Books", "Exercise"],
 });
 const activityTime = new Form({
   name: "user",

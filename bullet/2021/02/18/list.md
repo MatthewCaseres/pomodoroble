@@ -1,2 +1,0 @@
-* [ ] brush teeth
-* [ ] morning pomodoro
