@@ -13,6 +13,7 @@
     "uuidv4": "^6.2.6"
   },
   "scripts": {
-    "pom": "node scripts/pomodoro.js"
+    "pom": "node scripts/pomodoro.js",
+    "macpom": "node scripts/pomodoro.js"
   }
 }
