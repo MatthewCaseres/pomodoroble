@@ -16,7 +16,9 @@ yarn pomo
 npm run pomo
 ```
 
-which will run the pomodoro.js script.
+which will run the pomodoro.js script. Remember to do something to not let the process pause when mac sleeps. This messes up the counter but the timestamps will remain intact, which is probably better for use in data analysis.
+
+Data for your sessions is written to the `/sessions` folder.
 
 ## Taking a break
 To take a break press `t`. Press `t` again to start working again. Press `x` to finish the timer.
