@@ -4,7 +4,7 @@ This is folder that I use for personal organization and analytics. Ultimately it
 
 In the scripts folder you will find scripts, which are also scripts in package.json.
 
-Right now the only script is the pomodoro script, but I have some ideas for journaling as well. My journal is manual right now, you can find it in `/journal`. Remember to not let your computer sleep while the timer is running. This isn't an issue when you're writing code, but if you're doing something like working out, it can be a problem. On mac you can fix this by using caffeine.
+Right now the only script is the pomodoro script, but I have some ideas for journaling as well. My journal is manual right now, you can find it in `/journal`. Remember to not let your computer sleep while the timer is running. This isn't an issue when you're writing code, but if you're doing something like working out, it can be a problem. On mac you can fix this by using `caffeinate`.
 
 ## Instructions
 
