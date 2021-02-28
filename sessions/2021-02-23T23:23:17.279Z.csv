@@ -1,0 +1,4 @@
+"onBreak","seconds","endTime","startTime","activity","targetTotalHours","blockLenMinutes","breakLenMinutes","id"
+false,1976,"2021-02-23T21:01:44.264Z","2021-02-23T20:28:39.311Z","Exercise","1","0","0","16b12a83-f767-4ca5-bb73-9d9037e7b410"
+true,4629,"2021-02-23T22:19:14.962Z","2021-02-23T21:01:44.264Z","Exercise","1","0","0","16b12a83-f767-4ca5-bb73-9d9037e7b410"
+false,3827,"2021-02-23T23:23:17.245Z","2021-02-23T22:19:14.962Z","Exercise","1","0","0","16b12a83-f767-4ca5-bb73-9d9037e7b410"

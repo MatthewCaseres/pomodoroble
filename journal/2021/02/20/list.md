@@ -1,6 +1,5 @@
-* [ ] brush teeth
+* [X] brush teeth
 * [X] meds
-* [ ] morning pomodoro 7hr, important
-* [ ] exercise
-* [ ] ~~2 more hours~~ ~~1 more hour AWS~~ just read pomo
-* [ ] brush teeth
+* [X] morning pomodoro ~~7hr~~6hr, important
+* [X] exercise
+* [X] brush teeth
