@@ -17,12 +17,19 @@ df <- list.files(path="./sessions", full.names = TRUE) %>%
   mutate(start_date = as.Date(startTime))
 df %>% 
   filter(!onBreak) %>% 
-  group_by(id) %>% 
+  group_by(activity, start_date) %>% 
   summarise(hours = sum(seconds)/3600)
 ```
 ```{r}
-df %>% 
-  filter(!onBreak) %>% 
-  group_by(activity) %>% 
-  summarise(hours = sum(seconds)/3600)
+df %>%
+  filter(activity %in% c("AWS Notes", "School")) %>%
+  group_by(activity, start_date, onBreak) %>% 
+  summarise(hours = sum(seconds)/3600) %>% 
+  arrange(start_date, activity)
+
+df %>%
+  filter(activity %in% c("AWS Notes", "School")) %>%
+  group_by(activity, start_date) %>% 
+  summarise(hours = sum(seconds)/3600, eff = sum(seconds*!onBreak)/sum(seconds)) %>% 
+  arrange(start_date, activity)
 ```
