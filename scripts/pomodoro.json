@@ -1,0 +1,114 @@
+{
+  "lifting": [
+    {
+      "activity": "lifting",
+      "h": 1
+    }
+  ],
+  "walking": [
+    {
+      "activity": "walking"
+    }
+  ],
+  "Open Source": [
+    {
+      "activity": "Open Source"
+    }
+  ],
+  "morning1": [
+    {
+      "activity": "wake up",
+      "m": 10,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    },
+    {
+      "activity": "breakfast",
+      "m": 30,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    },
+    {
+      "activity": "break",
+      "m": 10,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    }
+  ],
+  "morning2": [
+    {
+      "activity": "wake up",
+      "m": 10,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    },
+    {
+      "activity": "break",
+      "m": 10,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    },
+    {
+      "activity": "breakfast",
+      "m": 30,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    }
+  ],
+  "morning3": [
+    {
+      "activity": "wake up",
+      "m": 10,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    },
+    {
+      "activity": "break",
+      "m": 10,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    },
+    {
+      "activity": "break",
+      "m": 10,
+      "less": true
+    },
+    {
+      "activity": "AWS Notes",
+      "h": 1
+    },
+    {
+      "activity": "breakfast",
+      "m": 30,
+      "less": true
+    },
+    {
+      "activity": "read",
+      "m": 10
+    }
+  ]
+}
