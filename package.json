@@ -1,5 +1,5 @@
 {
-  "name": "node-pomodoro",
+  "name": "pomodoroble",
   "version": "0.0.1",
   "description": "A programmable study timer.",
   "main": "lib/index.js",
@@ -8,8 +8,8 @@
     "lib",
     "src"
   ],
-  "repository": "https://github.com/MatthewCaseres/node-pomodoro.git",
-  "keywords": ["timer", "pomodoro"],
+  "repository": "https://github.com/MatthewCaseres/pomodoroble.git",
+  "keywords": ["timer", "pomodoro", "cli"],
   "author": "Matthew Caseres <matthewcaseres@outlook.com>",
   "license": "MIT",
   "devDependencies": {
