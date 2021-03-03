@@ -5,11 +5,14 @@
   "author": "Matthew Caseres",
   "license": "MIT",
   "dependencies": {
+    "@types/hh-mm-ss": "^1.2.0",
+    "@types/keypress": "^2.0.30",
     "cli-progress": "^3.9.0",
     "colors": "^1.4.0",
     "enquirer": "^2.3.6",
     "hh-mm-ss": "^1.2.0",
     "json2csv": "^5.0.6",
+    "keypress": "^0.2.1",
     "log-update": "^4.0.0",
     "uuidv4": "^6.2.6"
   },
@@ -17,5 +20,10 @@
     "pom": "node scripts/pomodoro.js",
     "pom2": "node scripts/pomodoro2.js",
     "macpom": "caffeinate node scripts/pomodoro.js"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "typescript": "^4.2.2",
+    "why-is-node-running": "^2.2.0"
   }
 }
