@@ -3,46 +3,66 @@ import _colors from "colors";
 import TimeFormat from "hh-mm-ss";
 import readline from "readline";
 
-function pomodoro(timeBlocks, i = 0) {
+export type TimeInput = {
+  h?: number;
+  m?: number;
+  s?: number;
+};
+export type TimeBlock<T = string> = {
+  activity: T;
+  finishUnder?: boolean;
+  start?: Date;
+  end?: Date;
+  focus?: number;
+} & TimeInput;
+export type LoggedBlock = {
+  goalSeconds: number;
+  loggedSeconds: number;
+  activity: string;
+  finishUnder?: boolean | undefined;
+  start?: Date | undefined;
+  end?: Date | undefined;
+  focus?: number | undefined;
+};
+
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
+
+export default function pomodoro<T extends string = string>(
+  timeBlocks: TimeBlock<T>[]
+): Promise<LoggedBlock[]> {
+  return new Promise((resolve, reject) => {
+  let i = 0;
   timeBlocks[i].start = new Date();
   const interval = setInterval(() => {
     logUpdate(displayTimeBlocks(timeBlocks));
-  }, 1000);
-  return new Promise((resolve, reject) => {
-    readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+  }, 200);
+    //Keeps track of current timeblock.
     process.stdin.on("keypress", (str) => {
       if (str.match(/[0-9]/)) {
-        clearInterval(interval)
         timeBlocks[i].end = new Date();
         timeBlocks[i].focus = parseInt(str);
         if (i < timeBlocks.length - 1) {
-          return pomodoro(timeBlocks, i+1)
+          i++;
+          timeBlocks[i].start = new Date();
         } else {
-          finish(timeBlocks);
-          resolve('lol')
+          resolve(finish(timeBlocks));
+        clearInterval(interval);
         }
+      } else if (str === "\x03") {
+        process.exit()
       }
     });
-  })
+  });
 }
 
-(async () => {
-  const dug = await pomodoro([{ activity: "open source" }])
-  console.log('res', dug)
-  console.log('res')
-})()
-
-
-function displayTimeBlocks(timeBlocks) {
+function displayTimeBlocks(timeBlocks: TimeBlock[]) {
   return timeBlocks
     .map((timeblock) => displayTimeBlock(timeblock) + "\n")
     .join("");
 }
 
-function displayTimeBlock(timeBlock) {
+function displayTimeBlock(timeBlock: TimeBlock) {
   const secondsPassed = timeBlock.start
     ? ~~(
         ((timeBlock.end?.getTime() ?? new Date().getTime()) -
@@ -58,36 +78,20 @@ function displayTimeBlock(timeBlock) {
   );
 }
 
-function finish(timeBlocks) {
+function finish(timeBlocks: TimeBlock[]) {
   let loggedBlocks = timeBlocks.map((timeBlock) => {
     const goalSeconds = getGoalSeconds(timeBlock);
     const { h, m, s, ...withoutGoal } = timeBlock;
     //If neither start nor end is 0, if only start is up to date.
     const loggedSeconds =
-      (timeBlock.end?.getTime() ?? new Date().getTime()) -
-      (timeBlock.start?.getTime() ?? new Date().getTime());
+      ((timeBlock.end?.getTime() ?? new Date().getTime()) -
+      (timeBlock.start?.getTime() ?? new Date().getTime()))/1000;
     return { ...withoutGoal, goalSeconds, loggedSeconds };
   });
-  //Aggregate
-  const totals = loggedBlocks.reduce((aggregates, loggedBlock) => {
-    let newTotals = aggregates[loggedBlock.activity] ?? {
-      totalGoal: 0,
-      totalLogged: 0,
-    };
-    newTotals.totalGoal = newTotals.totalGoal + loggedBlock.goalSeconds;
-    newTotals.totalLogged = newTotals.totalLogged + loggedBlock.loggedSeconds;
-    if (loggedBlock.finishUnder) {
-      newTotals.finishUnder = true;
-    }
-    aggregates[loggedBlock.activity] = newTotals;
-    return aggregates;
-  }, {});
-  return loggedBlocks
-  // console.log(loggedBlocks);
-  // console.log(totals);
+  return loggedBlocks;
 }
 
-function getTimeBlockColors(timeBlock) {
+function getTimeBlockColors(timeBlock: TimeBlock) {
   //If not started is white block
   if (!timeBlock.start) {
     return _colors.white;
@@ -113,8 +117,8 @@ function getTimeBlockColors(timeBlock) {
   }
 }
 
-function getGoalSeconds(timeBlock) {
+export function getGoalSeconds(timeInput: TimeInput) {
   return (
-    (timeBlock.h ?? 0) * 3600 + (timeBlock.m ?? 0) * 60 + (timeBlock.s ?? 0)
+    (timeInput.h ?? 0) * 3600 + (timeInput.m ?? 0) * 60 + (timeInput.s ?? 0)
   );
 }
