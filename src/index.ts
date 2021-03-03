@@ -28,7 +28,7 @@ export type LoggedBlock = {
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
 
-export default function pomodoro<T extends string = string>(
+export default async function pomodoro<T extends string = string>(
   timeBlocks: TimeBlock<T>[]
 ): Promise<LoggedBlock[]> {
   return new Promise((resolve, reject) => {

@@ -25,7 +25,6 @@ function pomodoroMaker({activity, blocks, blockLength, breakLength}: PomodoroMak
 const pomBlocks = pomodoroMaker({activity: "open source", blocks: 15, blockLength: {h: 1}, breakLength: {m: 10}});
 
 (async () => {
-  console.log(pomBlocks)
   let fudge = await pomodoro<Activity>(pomBlocks);
   console.log(fudge)
   process.exit()
