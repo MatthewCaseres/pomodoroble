@@ -1,0 +1,12 @@
+export type Activity =
+  "break"
+  | "speak"
+  | "walk"
+  | "open source"
+  | "lift"
+  | "code"
+  | "AWS notes"
+  | "AWS problems"
+  | "read"
+  | "shower"
+  | "brush teeth"

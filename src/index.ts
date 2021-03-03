@@ -8,8 +8,8 @@ export type TimeInput = {
   m?: number;
   s?: number;
 };
-export type TimeBlock<T = string> = {
-  activity: T;
+export type TimeBlock<T extends string = string> = {
+  activity: T | "pomodoroBreak";
   finishUnder?: boolean;
   start?: Date;
   end?: Date;
@@ -24,19 +24,28 @@ export type LoggedBlock = {
   end?: Date | undefined;
   focus?: number | undefined;
 };
+type PomodoroMakerInputs<T extends string> = {activity: T | "pomodoroBreak", blocks: number, blockLength: TimeInput, breakLength: TimeInput}
+export function pomodoroMaker<T extends string = string>({activity, blocks, blockLength, breakLength}: PomodoroMakerInputs<T>) {
+  let onWork: TimeBlock<T> = {activity, ...blockLength}
+  let onBreak: TimeBlock<T> = {activity: "pomodoroBreak", ...breakLength, finishUnder: true}
+  let pom: TimeBlock<T>[] = [{...onWork}]
+  for (let i = 1; i < blocks; i++) {
+    pom = [...pom, {...onBreak}, {...onWork}]
+  }
+  return pom
+}
 
-readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
-
-export default async function pomodoro<T extends string = string>(
+export async function pomodoro<T extends string = string>(
   timeBlocks: TimeBlock<T>[]
 ): Promise<LoggedBlock[]> {
+  readline.emitKeypressEvents(process.stdin);
+  process.stdin.setRawMode(true);
   return new Promise((resolve, reject) => {
-  let i = 0;
-  timeBlocks[i].start = new Date();
-  const interval = setInterval(() => {
-    logUpdate(displayTimeBlocks(timeBlocks));
-  }, 200);
+    let i = 0;
+    timeBlocks[i].start = new Date();
+    const interval = setInterval(() => {
+      logUpdate(displayTimeBlocks(timeBlocks));
+    }, 200);
     //Keeps track of current timeblock.
     process.stdin.on("keypress", (str) => {
       if (str.match(/[0-9]/)) {
@@ -47,10 +56,10 @@ export default async function pomodoro<T extends string = string>(
           timeBlocks[i].start = new Date();
         } else {
           resolve(finish(timeBlocks));
-        clearInterval(interval);
+          clearInterval(interval);
         }
       } else if (str === "\x03") {
-        process.exit()
+        process.exit();
       }
     });
   });
@@ -85,7 +94,8 @@ function finish(timeBlocks: TimeBlock[]) {
     //If neither start nor end is 0, if only start is up to date.
     const loggedSeconds =
       ((timeBlock.end?.getTime() ?? new Date().getTime()) -
-      (timeBlock.start?.getTime() ?? new Date().getTime()))/1000;
+        (timeBlock.start?.getTime() ?? new Date().getTime())) /
+      1000;
     return { ...withoutGoal, goalSeconds, loggedSeconds };
   });
   return loggedBlocks;

@@ -1,31 +1,11 @@
-import pomodoro, { TimeBlock, TimeInput, getGoalSeconds } from "../../src";
+import { pomodoro, TimeBlock, TimeInput, getGoalSeconds, pomodoroMaker} from "../../src";
+import {Activity} from './helpers'
+import fs from "fs"
+import path from "path"
 
-type Activity =
-  "break"
-  | "speak"
-  | "walk"
-  | "open source"
-  | "lift"
-  | "code"
-  | "AWS notes"
-  | "AWS problems"
-  | "read";
-type TypedBlock = TimeBlock<Activity>
-
-type PomodoroMakerInputs = {activity: Activity, blocks: number, blockLength: TimeInput, breakLength: TimeInput}
-function pomodoroMaker({activity, blocks, blockLength, breakLength}: PomodoroMakerInputs) {
-  let onWork: TypedBlock = {activity, ...blockLength}
-  let onBreak: TypedBlock = {activity: "break", ...breakLength, finishUnder: true}
-  let pom: TypedBlock[] = [{...onWork}]
-  for (let i = 1; i < blocks; i++) {
-    pom = [...pom, {...onBreak}, {...onWork}]
-  }
-  return pom
-}
-const pomBlocks = pomodoroMaker({activity: "open source", blocks: 15, blockLength: {h: 1}, breakLength: {m: 10}});
-
+const pomBlocks = pomodoroMaker<Activity>({activity: "AWS notes", blocks: 3, blockLength: {h: 1}, breakLength: {m: 10}});
 (async () => {
   let fudge = await pomodoro<Activity>(pomBlocks);
-  console.log(fudge)
+  fs.writeFileSync(path.join(__dirname, "..", "time", new Date().toISOString() + ".json"), JSON.stringify(fudge))
   process.exit()
 })();
