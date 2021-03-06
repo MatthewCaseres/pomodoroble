@@ -36,7 +36,8 @@ export function pomodoroMaker<T extends string = string>({activity, blocks, bloc
 }
 
 export async function pomodoro<T extends string = string>(
-  timeBlocks: TimeBlock<T>[]
+  timeBlocks: TimeBlock<T>[],
+  bindings?: Record<string, (timeBlocks: TimeBlock<T>[], index: number) => TimeBlock<T>[]>
 ): Promise<LoggedBlock[]> {
   readline.emitKeypressEvents(process.stdin);
   process.stdin.setRawMode(true);
@@ -48,7 +49,9 @@ export async function pomodoro<T extends string = string>(
     }, 200);
     //Keeps track of current timeblock.
     process.stdin.on("keypress", (str) => {
-      if (str.match(/[0-9]/)) {
+      if (bindings && str in bindings) {
+        timeBlocks = bindings[str](timeBlocks, i)
+      } else if (str.match(/[0-9]/)) {
         timeBlocks[i].end = new Date();
         timeBlocks[i].focus = parseInt(str);
         if (i < timeBlocks.length - 1) {
@@ -73,9 +76,9 @@ function displayTimeBlocks(timeBlocks: TimeBlock[]) {
 
 function displayTimeBlock(timeBlock: TimeBlock) {
   const secondsPassed = timeBlock.start
-    ? ~~(
+    ? Math.floor(
         ((timeBlock.end?.getTime() ?? new Date().getTime()) -
-          timeBlock.start?.getTime()) /
+          timeBlock.start?.getTime() ?? 0) /
         1000
       )
     : 0;
