@@ -1,6 +1,6 @@
 {
   "name": "pomodoroble",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A programmable study timer.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
