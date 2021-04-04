@@ -17,18 +17,27 @@
   "author": "Matthew Caseres <matthewcaseres@outlook.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/google-spreadsheet": "^3.0.2",
+    "@types/hh-mm-ss": "^1.2.0",
+    "@types/json2csv": "^5.0.1",
+    "@types/luxon": "^1.26.1",
     "@types/node": "^14.14.31",
+    "@types/uuid": "^8.3.0",
+    "google-spreadsheet": "^3.1.15",
+    "luxon": "^1.26.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.2"
   },
   "dependencies": {
-    "@types/hh-mm-ss": "^1.2.0",
     "colors": "^1.4.0",
     "hh-mm-ss": "^1.2.0",
-    "log-update": "^4.0.0"
+    "log-update": "^4.0.0",
+    "yaml": "^1.10.2"
   },
   "scripts": {
-    "timer": "npx ts-node usage/scripts/run.ts",
+    "timer": "npx ts-node usage/run.ts",
+    "habit": "npx ts-node usage/habits.ts",
+    "CSV": "node usage/scripts/CSV.js",
     "build": "tsc"
   }
 }

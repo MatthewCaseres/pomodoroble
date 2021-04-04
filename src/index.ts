@@ -9,36 +9,16 @@ export type TimeInput = {
   s?: number;
 };
 export type TimeBlock<T extends string = string> = {
-  activity: T | "pomodoroBreak";
+  activity: T;
   finishUnder?: boolean;
   start?: Date;
   end?: Date;
-  focus?: number;
 } & TimeInput;
-export type LoggedBlock = {
-  goalSeconds: number;
-  loggedSeconds: number;
-  activity: string;
-  finishUnder?: boolean | undefined;
-  start?: Date | undefined;
-  end?: Date | undefined;
-  focus?: number | undefined;
-};
-type PomodoroMakerInputs<T extends string> = {activity: T | "pomodoroBreak", blocks: number, blockLength: TimeInput, breakLength: TimeInput}
-export function pomodoroMaker<T extends string = string>({activity, blocks, blockLength, breakLength}: PomodoroMakerInputs<T>) {
-  let onWork: TimeBlock<T> = {activity, ...blockLength}
-  let onBreak: TimeBlock<T> = {activity: "pomodoroBreak", ...breakLength, finishUnder: true}
-  let pom: TimeBlock<T>[] = [{...onWork}]
-  for (let i = 1; i < blocks; i++) {
-    pom = [...pom, {...onBreak}, {...onWork}]
-  }
-  return pom
-}
 
 export async function pomodoro<T extends string = string>(
   timeBlocks: TimeBlock<T>[],
   bindings?: Record<string, (timeBlocks: TimeBlock<T>[], index: number) => TimeBlock<T>[]>
-): Promise<LoggedBlock[]> {
+): Promise<(TimeBlock & {goalSeconds: number, loggedSeconds: number})[]> {
   readline.emitKeypressEvents(process.stdin);
   process.stdin.setRawMode(true);
   return new Promise((resolve, reject) => {
@@ -48,12 +28,11 @@ export async function pomodoro<T extends string = string>(
       logUpdate(displayTimeBlocks(timeBlocks));
     }, 200);
     //Keeps track of current timeblock.
-    process.stdin.on("keypress", (str) => {
+    process.stdin.on("keypress", (str, key) => {
       if (bindings && str in bindings) {
         timeBlocks = bindings[str](timeBlocks, i)
-      } else if (str.match(/[0-9]/)) {
+      } else if (key && (key.name == 'enter' || key.name == 'return')) {
         timeBlocks[i].end = new Date();
-        timeBlocks[i].focus = parseInt(str);
         if (i < timeBlocks.length - 1) {
           i++;
           timeBlocks[i].start = new Date();
@@ -86,7 +65,7 @@ function displayTimeBlock(timeBlock: TimeBlock) {
   return getTimeBlockColors(timeBlock)(
     `${timeBlock.activity} ${TimeFormat.fromS(
       secondsPassed
-    )}/${TimeFormat.fromS(totalSeconds)} ${timeBlock.focus ?? ""}`
+    )}/${TimeFormat.fromS(totalSeconds)}`
   );
 }
 
