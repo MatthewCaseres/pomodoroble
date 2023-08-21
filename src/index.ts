@@ -16,9 +16,8 @@ export type TimeBlock<T extends string = string> = {
 } & TimeInput;
 
 export async function pomodoro<T extends string = string>(
-  timeBlocks: TimeBlock<T>[],
-  bindings?: Record<string, (timeBlocks: TimeBlock<T>[], index: number) => TimeBlock<T>[]>
-): Promise<(TimeBlock & {goalSeconds: number, loggedSeconds: number})[]> {
+  timeBlocks: TimeBlock<T>[]
+): Promise<(TimeBlock & { goalSeconds: number; loggedSeconds: number })[]> {
   readline.emitKeypressEvents(process.stdin);
   process.stdin.setRawMode(true);
   return new Promise((resolve, reject) => {
@@ -29,9 +28,7 @@ export async function pomodoro<T extends string = string>(
     }, 200);
     //Keeps track of current timeblock.
     process.stdin.on("keypress", (str, key) => {
-      if (bindings && str in bindings) {
-        timeBlocks = bindings[str](timeBlocks, i)
-      } else if (key && (key.name == 'enter' || key.name == 'return')) {
+      if (key && (key.name == "enter" || key.name == "return")) {
         timeBlocks[i].end = new Date();
         if (i < timeBlocks.length - 1) {
           i++;
@@ -57,8 +54,7 @@ function displayTimeBlock(timeBlock: TimeBlock) {
   const secondsPassed = timeBlock.start
     ? Math.floor(
         ((timeBlock.end?.getTime() ?? new Date().getTime()) -
-          timeBlock.start?.getTime() ?? 0) /
-        1000
+          timeBlock.start?.getTime() ?? 0) / 1000
       )
     : 0;
   const totalSeconds = getGoalSeconds(timeBlock);
@@ -109,7 +105,7 @@ function getTimeBlockColors(timeBlock: TimeBlock) {
   }
 }
 
-export function getGoalSeconds(timeInput: TimeInput) {
+function getGoalSeconds(timeInput: TimeInput) {
   return (
     (timeInput.h ?? 0) * 3600 + (timeInput.m ?? 0) * 60 + (timeInput.s ?? 0)
   );

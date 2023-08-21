@@ -25,8 +25,9 @@
     "@types/uuid": "^8.3.0",
     "google-spreadsheet": "^3.1.15",
     "luxon": "^1.26.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.2"
+    "tsx": "^3.12.7",
+    "typescript": "^4.2.2",
+    "zod": "^3.22.2"
   },
   "dependencies": {
     "colors": "^1.4.0",
@@ -35,9 +36,7 @@
     "yaml": "^1.10.2"
   },
   "scripts": {
-    "timer": "npx ts-node usage/run.ts",
-    "habit": "npx ts-node usage/habits.ts",
-    "CSV": "node usage/scripts/CSV.js",
+    "timer": "tsx usage/run.ts",
     "build": "tsc"
   }
 }
